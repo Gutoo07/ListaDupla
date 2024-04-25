@@ -67,6 +67,9 @@ public class ListaDupla<T> {
 		throw new IllegalArgumentException("Item nao encontrado na lista.");
 	}
 	public void insert(T valor, int index) {
+		if ( index == 0 ) {
+			//se o index a inserir for 0
+		}
 		No<T> novo = new No<>(valor);
 		No<T> buffer_proximo = get(index);
 		No<T> buffer_anterior = get(--index);
