@@ -70,6 +70,10 @@ public class ListaDupla<T> {
 		No<T> novo = new No<>(valor);
 		No<T> buffer_proximo = get(index);
 		No<T> buffer_anterior = get(--index);
+		buffer_anterior.setProximo(novo);
+		buffer_proximo.setAnterior(novo);
+		novo.setProximo(buffer_proximo);
+		novo.setAnterior(buffer_anterior); //deve estar errado
 		
 	}
 }
