@@ -24,6 +24,8 @@ public class ListaDupla<T> {
 			return;
 		} 
 		this.last().setProximo(novo);
+		novo.setAnterior(this.last());
+		this.fim = novo;
 	}
 	public No<T> last() throws IllegalArgumentException {
 		if (this.inicio == null) {
@@ -67,17 +69,85 @@ public class ListaDupla<T> {
 		throw new IllegalArgumentException("Item nao encontrado na lista.");
 	}
 	public void insert(T valor, int index) {
-		if ( index == 0 ) {
-			//se o index a inserir for 0
-		}
 		No<T> novo = new No<>(valor);
-		No<T> buffer_proximo = get(index);
-		No<T> buffer_anterior = get(--index);
-		buffer_anterior.setProximo(novo);
-		buffer_proximo.setAnterior(novo);
-		novo.setProximo(buffer_proximo);
-		novo.setAnterior(buffer_anterior); //deve estar errado
+
+		if ( index == 0 ) {
+			if (this.inicio == null) {			
+				this.inicio = novo;
+				this.fim = novo;
+			} else {
+				No<T> buffer_inicio = this.inicio;
+				this.inicio = novo;
+				novo.setProximo(buffer_inicio);
+				buffer_inicio.setAnterior(novo);
+			}
+		} else {
+			No<T> buffer_proximo = get(index);
+			No<T> buffer_anterior = get(--index);
+			buffer_anterior.setProximo(novo);
+			buffer_proximo.setAnterior(novo);
+			novo.setProximo(buffer_proximo);
+			novo.setAnterior(buffer_anterior); 
+		}		
+	}
+	public void prepend (T valor) {
+		No<T> novo = new No<>(valor);
+		if (this.inicio == null) {
+			this.inicio = novo;
+			this.fim = novo;
+		} else {
+			No<T> buffer_inicio = this.inicio;
+			this.inicio = novo;
+			novo.setProximo(buffer_inicio);
+			buffer_inicio.setAnterior(novo);
+		}
+	}
+	public void remove (int index) throws IllegalArgumentException {
+		if ( get(index) == null ) {
+			throw new IllegalArgumentException("Indice inexistente.");
+		}
+		if (index == 0) {
+			this.inicio = this.inicio.getProximo();
+			this.inicio.setAnterior(null);
+		} else {
+			No<T> remover = get(index);
+			No<T> anterior = remover.getAnterior();
+			No<T> proximo = remover.getProximo();
+			anterior.setProximo(proximo);
+			proximo.setAnterior(anterior);
+			remover.setAnterior(null);
+			remover.setProximo(null);
+			remover.setValor(null);
+		}
+	}
+	public int total() {
+		if (this.inicio == null) {
+			return 0;
+		}
+		No<T> buffer = this.inicio;
+		int total = 1;
 		
+		while ( buffer.getProximo() != null ) {
+			total++;
+			buffer = buffer.getProximo();
+		}
+		return total;
+	}
+	@Override
+	public String toString() {
+		if (this.inicio == null) {
+			return "[]";
+		}
+		StringBuilder builder = new StringBuilder("[");
+		No<T> buffer = this.inicio;
+		builder.append( buffer.getValor() );
+		while ( buffer.getProximo() != null ) {
+			builder.append(",");
+			buffer = buffer.getProximo();
+			builder.append(buffer.getValor());
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 }
 
