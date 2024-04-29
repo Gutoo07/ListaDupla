@@ -23,9 +23,12 @@ public class Metodos {
 		System.out.println(lista.toString());
 		
 		lista.remove(0);
-
 		
 		System.out.println(lista.toString());
+		
+		lista.prepend(0);
+		System.out.println(lista.toString());
+
 
 	}
 }

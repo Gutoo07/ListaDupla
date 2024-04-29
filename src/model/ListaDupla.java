@@ -72,15 +72,7 @@ public class ListaDupla<T> {
 		No<T> novo = new No<>(valor);
 
 		if ( index == 0 ) {
-			if (this.inicio == null) {			
-				this.inicio = novo;
-				this.fim = novo;
-			} else {
-				No<T> buffer_inicio = this.inicio;
-				this.inicio = novo;
-				novo.setProximo(buffer_inicio);
-				buffer_inicio.setAnterior(novo);
-			}
+			this.prepend(valor);
 		} else {
 			No<T> buffer_proximo = get(index);
 			No<T> buffer_anterior = get(--index);
